@@ -139,7 +139,7 @@ class _CollageDetailState extends State<CollageDetail> {
                       child: ListView.builder(
                           scrollDirection: Axis.vertical,
                           shrinkWrap: true,
-                          itemCount: placement.length,
+                          itemCount: widget.collage.PLACEMENTS.length,
                           itemBuilder: ((context, index) {
                             return Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
