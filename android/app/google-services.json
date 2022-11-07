@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "966687005697",
+    "project_id": "the-admission-guide",
+    "storage_bucket": "the-admission-guide.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:966687005697:android:1ef835cbe85eeb4439f400",
+        "android_client_info": {
+          "package_name": "com.example.the_admission_guide"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "966687005697-i2i5eot5729gskp54bappqpuufcrm8qg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASGORPdOWPKXCoRR7QkSOwjm8Kl9eL2-c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "966687005697-i2i5eot5729gskp54bappqpuufcrm8qg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
