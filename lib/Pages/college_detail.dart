@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -53,10 +54,26 @@ class _CollageDetailState extends State<CollageDetail> {
 // }
   @override
   Widget build(BuildContext context) {
+    Map<String, Map<String, String>> cutoffofcollege = {};
+    Map<String, String> temp1 = {};
+
     // print(widget.collage.PLACEMENTS["AVERAGE PACKAGE"]);
-    Map placement = widget.collage.PLACEMENTS;
-        var a=placement.keys.elementAt(0);
-        print(a);
+    Map placement = widget.collage.CUTOFF;
+    Map a = placement.values.elementAt(0);
+
+    Map<String, Map> cutoffs;
+
+    a.forEach((key, value) => {
+// b=jsonDecode(value),
+          temp1 = {},
+          value.forEach((key, value) => temp1[key] = value.toString()),
+          // print(key.toString() + "         "), print(temp1.keys.first),
+          cutoffofcollege[key] = temp1
+
+          // value.forEach(
+          //     (key, value) => print(key + "        " + value.toString()))
+        });
+    print(cutoffofcollege.values.elementAt(1).length);
 
     // placement.forEach(
     //   (key, value) => print(key.toString() + "     " + value.toString()),
@@ -129,16 +146,6 @@ class _CollageDetailState extends State<CollageDetail> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(18.0),
-                      // child: Column(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: [
-                      //     overviewwidget(context, "AVERAGE PACKAGE",
-                      //         widget.collage["PLACEMENTS"]["AVERAGE PACKAGE"]),
-                      //     const Divider(thickness: 1),
-                      //     overviewwidget(context, "HIGH PACKAGE",
-                      //         widget.collage["PLACEMENTS"]["HIGH PACKAGE"]),
-                      //   ],
-                      // ),
                       child: ListView.builder(
                           scrollDirection: Axis.vertical,
                           shrinkWrap: true,
@@ -147,26 +154,147 @@ class _CollageDetailState extends State<CollageDetail> {
                             return Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                overviewwidget(context, widget.collage.PLACEMENTS.keys.elementAt(index),
-                                    widget.collage.PLACEMENTS.values.elementAt(index)),
+                                overviewwidget(
+                                    context,
+                                    widget.collage.PLACEMENTS.keys
+                                        .elementAt(index),
+                                    widget.collage.PLACEMENTS.values
+                                        .elementAt(index)),
                                 const Divider(thickness: 1),
                               ],
                             );
                           })),
-
-                      // child: widget.collage.PLACEMENTS.forEach((key, value) {
-                      //   Column(
-                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //     children: [
-                      //       overviewwidget(context, "AVERAGE PACKAGE",
-                      //           widget.collage.PLACEMENTS[index]),
-                      //       const Divider(thickness: 1),
-                      //     ],
-                      //   );
-                      // }),
                     ),
                   ],
                 ),
+                ExpansionTile(
+                  title: Text(
+                    "INSTITUTE FEE",
+                    style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: text_color_violet),
+                  ),
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: widget.collage.INSTITUTE_FEE.length,
+                          itemBuilder: ((context, index) {
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                overviewwidget(
+                                    context,
+                                    widget.collage.INSTITUTE_FEE.keys
+                                        .elementAt(index),
+                                    widget.collage.INSTITUTE_FEE.values
+                                        .elementAt(index)),
+                                const Divider(thickness: 1),
+                              ],
+                            );
+                          })),
+                    ),
+                  ],
+                ),
+                ExpansionTile(
+                  title: Text(
+                    "HOSTEL FEE",
+                    style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: text_color_violet),
+                  ),
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: widget.collage.HOSTEL_FEE.length,
+                          itemBuilder: ((context, index) {
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                overviewwidget(
+                                    context,
+                                    widget.collage.HOSTEL_FEE.keys
+                                        .elementAt(index),
+                                    widget.collage.HOSTEL_FEE.values
+                                        .elementAt(index)),
+                                const Divider(thickness: 1),
+                              ],
+                            );
+                          })),
+                    ),
+                  ],
+                ),
+                ExpansionTile(
+                  title: Text(
+                    "Cutoff",
+                    style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: text_color_violet),
+                  ),
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: cutoffofcollege.keys.length,
+                          itemBuilder: ((context, index) {
+                            return ExpansionTile(
+                              title: Text(
+                                cutoffofcollege.keys.elementAt(index).toString(),
+                                style: TextStyle(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold,
+                                    color: text_color_violet),
+                              ),
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(18.0),
+                                  child: ListView.builder( 
+                                      scrollDirection: Axis.vertical,
+                                      shrinkWrap: true,
+                                      itemCount: cutoffofcollege.values.elementAt(index).length,
+                                      itemBuilder: ((context, index2) {
+                                        return Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            overviewwidget(
+                                                context,
+                                                cutoffofcollege.values.elementAt(index).keys.elementAt(index2),
+                                                cutoffofcollege.values.elementAt(index).values.elementAt(index2)),
+                                            const Divider(thickness: 1),
+                                          ],
+                                        );
+                                      })),
+                                ),
+                              ],
+                            );
+
+                            // return Column(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //   children: [
+                            //     overviewwidget(
+                            //         context,
+                            //         widget.collage.CUTOFF.keys.elementAt(index),
+                            //         widget.collage.CUTOFF.values
+                            //             .elementAt(index)),
+                            //     const Divider(thickness: 1),
+                            //   ],
+                            // );
+                          })),
+                    ),
+                  ],
+                ),
+
                 // ExpansionTile(
                 //   title: Text(
                 //     "INSTITUTE FEE",

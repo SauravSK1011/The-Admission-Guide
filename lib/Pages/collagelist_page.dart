@@ -37,7 +37,8 @@ await FirebaseFirestore.instance
         .then((snapshort) => snapshort.docs.forEach((element) {
               // print(element.);
               listofcollage.add(CollegeModel(IMG: element["IMG"],
-                CUTOFF: element["CUTOFF"],
+                CUTOFF: 
+                element["CUTOFF"],
                 Established: element["Established"].toString(),
                 Name: element["Name"],
                 Location: element["Location"],
