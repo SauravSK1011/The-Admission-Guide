@@ -1,11 +1,6 @@
-import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:the_admission_guide/Firebase/firebase.dart';
 import 'package:the_admission_guide/Model/college.dart';
 import 'package:the_admission_guide/colors.dart';
 
@@ -20,38 +15,7 @@ class CollageDetail extends StatefulWidget {
 class _CollageDetailState extends State<CollageDetail> {
   List<CollegeModel> listofcollage = [];
 
-  @override
-  void initState() {
-//  college23=
-//  Firebase.getdata2();
-//  print(college23);
 
-// getlistofcol();
-    super.initState();
-  }
-// Future<void> getlistofcol()async {
-
-// await FirebaseFirestore.instance
-//         .collection("Colleges")
-//         .get()
-//         .then((snapshort) => snapshort.docs.forEach((element) {
-//               // print(element.);
-//               listofcollage.add(CollegeModel(
-//                 CUTOFF: element["CUTOFF"],
-//                 Established: "",
-//                 // element["Established"].toString(),
-//                 Name: element["Name"],
-//                 Location: element["Location"],
-//                 INSTITUTE_FEE: element["INSTITUTE FEE"],
-//                 PLACEMENTS: element["PLACEMENTS"],
-//                 RANKING: element["RANKING"],
-//                 HOSTEL_FEE: element["HOSTEL FEE"],
-//                 Institute_Type: element["Institute Type"],
-//               ));
-//             }))
-//         .catchError((err) => print(err));
-//         print(listofcollage[0].CUTOFF);
-// }
   @override
   Widget build(BuildContext context) {
     Map<String, Map<String, String>> cutoffofcollege = {};
@@ -64,20 +28,13 @@ class _CollageDetailState extends State<CollageDetail> {
     Map<String, Map> cutoffs;
 
     a.forEach((key, value) => {
-// b=jsonDecode(value),
           temp1 = {},
           value.forEach((key, value) => temp1[key] = value.toString()),
-          // print(key.toString() + "         "), print(temp1.keys.first),
           cutoffofcollege[key] = temp1
-
-          // value.forEach(
-          //     (key, value) => print(key + "        " + value.toString()))
         });
     print(cutoffofcollege.values.elementAt(1).length);
 
-    // placement.forEach(
-    //   (key, value) => print(key.toString() + "     " + value.toString()),
-    // );
+
 
     return Scaffold(
       appBar: AppBar(
@@ -133,6 +90,39 @@ class _CollageDetailState extends State<CollageDetail> {
                           context, "Established", widget.collage.Established),
                     ],
                   ),
+                ),                const Divider(thickness: 2.5),
+
+                ExpansionTile(
+                  title: Text(
+                    "RANKING",
+                    style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: text_color_violet),
+                  ),
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: widget.collage.RANKING.length,
+                          itemBuilder: ((context, index) {
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                overviewwidget(
+                                    context,
+                                    widget.collage.RANKING.keys
+                                        .elementAt(index),
+                                    widget.collage.RANKING.values
+                                        .elementAt(index)),
+                                const Divider(thickness: 1),
+                              ],
+                            );
+                          })),
+                    ),
+                  ],
                 ),
                 const Divider(thickness: 2.5),
                 ExpansionTile(
@@ -279,133 +269,11 @@ class _CollageDetailState extends State<CollageDetail> {
                               ],
                             );
 
-                            // return Column(
-                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            //   children: [
-                            //     overviewwidget(
-                            //         context,
-                            //         widget.collage.CUTOFF.keys.elementAt(index),
-                            //         widget.collage.CUTOFF.values
-                            //             .elementAt(index)),
-                            //     const Divider(thickness: 1),
-                            //   ],
-                            // );
+                           
                           })),
                     ),
                   ],
                 ),
-
-                // ExpansionTile(
-                //   title: Text(
-                //     "INSTITUTE FEE",
-                //     style: TextStyle(
-                //         fontSize: 30,
-                //         fontWeight: FontWeight.bold,
-                //         color: text_color_violet),
-                //   ),
-                //   children: [
-                //     Padding(
-                //       padding: const EdgeInsets.all(18.0),
-                //       child: Column(
-                //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //         children: [
-                //           overviewwidget(
-                //               context,
-                //               "Caution Money (One Time, Refundable)",
-                //               widget.collage["INSTITUTE FEE"]
-                //                   ["Caution Money (One Time, Refundable)	"]),
-                //           const Divider(thickness: 1),
-                //           overviewwidget(
-                //               context,
-                //               "Development Fees (per Year)",
-                //               widget.collage["INSTITUTE FEE"]
-                //                   ["Development Fees (per Year)	"]),
-                //           const Divider(thickness: 1),
-                //           overviewwidget(
-                //               context,
-                //               "Student Insurance (per Year)",
-                //               widget.collage["INSTITUTE FEE"]
-                //                   ["Student Insurance (per Year)	"]),
-                //           const Divider(thickness: 1),
-                //           overviewwidget(
-                //               context,
-                //               "Exam Fees (per Year)",
-                //               widget.collage["INSTITUTE FEE"]
-                //                   ["Exam Fees (per Year)	"]),
-                //           const Divider(thickness: 1),
-                //           overviewwidget(
-                //               context,
-                //               "Tuition Fee (per Year)",
-                //               widget.collage["INSTITUTE FEE"]
-                //                   ["Tuition Fee (per Year)"]),
-                //           const Divider(thickness: 1),
-                //           overviewwidget(
-                //               context,
-                //               "Other Fees (per Year)",
-                //               widget.collage["INSTITUTE FEE"]
-                //                   ["Other Fees (per Year)	"]),
-                //           const Divider(thickness: 1),
-                //           overviewwidget(context, "Total",
-                //               widget.collage["INSTITUTE FEE"]["Total"]),
-                //         ],
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                // ExpansionTile(
-                //   title: Text(
-                //     "HOSTEL FEE",
-                //     style: TextStyle(
-                //         fontSize: 30,
-                //         fontWeight: FontWeight.bold,
-                //         color: text_color_violet),
-                //   ),
-                //   children: [
-                //     Padding(
-                //       padding: const EdgeInsets.all(18.0),
-                //       child: Column(
-                //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //         children: [
-                //           ExpansionTile(
-                //             title: Text(
-                //               "Hostel Rent",
-                //               style: TextStyle(
-                //                   fontSize: 30,
-                //                   fontWeight: FontWeight.bold,
-                //                   color: text_color_violet),
-                //             ),
-                //             children: [
-                //               Padding(
-                //                 padding: const EdgeInsets.all(18.0),
-                //                 child: Column(
-                //                   mainAxisAlignment:
-                //                       MainAxisAlignment.spaceBetween,
-                //                   children: [
-                //                     overviewwidget(
-                //                         context,
-                //                         "Boys Hostel",
-                //                         widget.collage["HOSTEL FEE"]
-                //                             ["Hostel Rent"]["Boys Hostel"]),
-                //                     const Divider(thickness: 1),
-                //                     overviewwidget(
-                //                         context,
-                //                         "Girls Hostel",
-                //                         widget.collage["HOSTEL FEE"]
-                //                             ["Hostel Rent"]["Girls Hostel"]),
-                //                   ],
-                //                 ),
-                //               ),
-                //             ],
-                //           ),
-                //           const Divider(thickness: 1),
-                //           overviewwidget(context, "Other Charges",
-                //               widget.collage["HOSTEL FEE"]["Other Charges	"]),
-                //           cutoff(widget.collage)
-                //         ],
-                //       ),
-                //     ),
-                //   ],
-                // ),
               ],
             )
           ],
@@ -497,73 +365,4 @@ Widget imgwidget(context, img, name) {
       ],
     ),
   );
-}
-
-// Widget detailwidget(){
-//   return
-// }
-
-Widget cutoff(DocumentSnapshot collage) {
-//  List<CollegeModel> college23= Firebase.getdata2();
-// Map collegecutoff=collage["CUTOFF"];
-// collegecutoff.forEach((ele)=>{
-//   print(ele.toString())
-// });
-  // while(collage["CUTOFF"]){
-  //   print(collage["CUTOFF"]);
-  // }
-  return Container();
-  // return ExpansionTile(
-  //                 title: Text(
-  //                   "CUTOFF",
-  //                   style: TextStyle(
-  //                       fontSize: 30,
-  //                       fontWeight: FontWeight.bold,
-  //                       color: text_color_violet),
-  //                 ),
-  //                 children: [
-  //                   Padding(
-  //                     padding: const EdgeInsets.all(18.0),
-  //                     child: Column(
-  //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                       children: [
-  //                         ExpansionTile(
-  //                           title: Text(
-  //                             "General",
-  //                             style: TextStyle(
-  //                                 fontSize: 30,
-  //                                 fontWeight: FontWeight.bold,
-  //                                 color: text_color_violet),
-  //                           ),
-  //                           children: [
-  //                             Padding(
-  //                               padding: const EdgeInsets.all(18.0),
-  //                               child: Column(
-  //                                 mainAxisAlignment:
-  //                                     MainAxisAlignment.spaceBetween,
-  //                                 children: [
-  //                                   overviewwidget(
-  //                                       context,
-  //                                       "Boys Hostel",
-  //                                       collage["HOSTEL FEE"]["Hostel Rent"]
-  //                                           ["Boys Hostel"]),
-  //                                   const Divider(thickness: 1),
-  //                                   overviewwidget(
-  //                                       context,
-  //                                       "Girls Hostel",
-  //                                       collage["HOSTEL FEE"]["Hostel Rent"]
-  //                                           ["Girls Hostel"]),
-  //                                 ],
-  //                               ),
-  //                             ),
-  //                           ],
-  //                         ),
-  //                         const Divider(thickness: 1),
-  //                         overviewwidget(context, "Other Charges",
-  //                             collage["HOSTEL FEE"]["Other Charges	"]),
-  //                       ],
-  //                     ),
-  //                   ),
-  //                 ],
-  //               );
 }
