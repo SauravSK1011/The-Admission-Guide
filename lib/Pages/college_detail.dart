@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:the_admission_guide/Model/college.dart';
@@ -14,7 +13,6 @@ class CollageDetail extends StatefulWidget {
 
 class _CollageDetailState extends State<CollageDetail> {
   List<CollegeModel> listofcollage = [];
-
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +31,6 @@ class _CollageDetailState extends State<CollageDetail> {
           cutoffofcollege[key] = temp1
         });
     print(cutoffofcollege.values.elementAt(1).length);
-
-
 
     return Scaffold(
       appBar: AppBar(
@@ -59,6 +55,7 @@ class _CollageDetailState extends State<CollageDetail> {
       body: Container(
         color: mybackgroundColor,
         child: ListView(
+          shrinkWrap: true,
           children: [
             const SizedBox(
               height: 25,
@@ -90,8 +87,8 @@ class _CollageDetailState extends State<CollageDetail> {
                           context, "Established", widget.collage.Established),
                     ],
                   ),
-                ),                const Divider(thickness: 2.5),
-
+                ),
+                const Divider(thickness: 2.5),
                 ExpansionTile(
                   title: Text(
                     "RANKING",
@@ -108,8 +105,7 @@ class _CollageDetailState extends State<CollageDetail> {
                           shrinkWrap: true,
                           itemCount: widget.collage.RANKING.length,
                           itemBuilder: ((context, index) {
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            return ListView(shrinkWrap: true,
                               children: [
                                 overviewwidget(
                                     context,
@@ -239,7 +235,9 @@ class _CollageDetailState extends State<CollageDetail> {
                           itemBuilder: ((context, index) {
                             return ExpansionTile(
                               title: Text(
-                                cutoffofcollege.keys.elementAt(index).toString(),
+                                cutoffofcollege.keys
+                                    .elementAt(index)
+                                    .toString(),
                                 style: TextStyle(
                                     fontSize: 30,
                                     fontWeight: FontWeight.bold,
@@ -248,10 +246,12 @@ class _CollageDetailState extends State<CollageDetail> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(18.0),
-                                  child: ListView.builder( 
+                                  child: ListView.builder(
                                       scrollDirection: Axis.vertical,
                                       shrinkWrap: true,
-                                      itemCount: cutoffofcollege.values.elementAt(index).length,
+                                      itemCount: cutoffofcollege.values
+                                          .elementAt(index)
+                                          .length,
                                       itemBuilder: ((context, index2) {
                                         return Column(
                                           mainAxisAlignment:
@@ -259,8 +259,14 @@ class _CollageDetailState extends State<CollageDetail> {
                                           children: [
                                             overviewwidget(
                                                 context,
-                                                cutoffofcollege.values.elementAt(index).keys.elementAt(index2),
-                                                cutoffofcollege.values.elementAt(index).values.elementAt(index2)),
+                                                cutoffofcollege.values
+                                                    .elementAt(index)
+                                                    .keys
+                                                    .elementAt(index2),
+                                                cutoffofcollege.values
+                                                    .elementAt(index)
+                                                    .values
+                                                    .elementAt(index2)),
                                             const Divider(thickness: 1),
                                           ],
                                         );
@@ -268,8 +274,6 @@ class _CollageDetailState extends State<CollageDetail> {
                                 ),
                               ],
                             );
-
-                           
                           })),
                     ),
                   ],

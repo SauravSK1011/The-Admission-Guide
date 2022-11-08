@@ -12,11 +12,12 @@ class Firebase {
         
     return listcollages;
   }
+  
 
-  static getdata2()  async {
+  static List<CollegeModel> getdata2()   {
         List<CollegeModel> listofcollage=[];
 
-    await FirebaseFirestore.instance
+     FirebaseFirestore.instance
         .collection("Colleges")
         .get()
         .then((snapshort) => snapshort.docs.forEach((element) {

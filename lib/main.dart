@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:the_admission_guide/Pages/addcollege.dart';
 import 'package:the_admission_guide/home_page.dart';
 
 import 'Pages/collagelist_page.dart';

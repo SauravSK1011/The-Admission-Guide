@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:the_admission_guide/Model/college.dart';
@@ -16,68 +18,108 @@ class Collagelist_Page extends StatefulWidget {
 class _Collagelist_PageState extends State<Collagelist_Page> {
   late CollectionReference list;
   List<CollegeModel> listofcollage = [];
-
+  bool loding = true;
+  CollectionReference listcollages =
+      FirebaseFirestore.instance.collection("Colleges");
   @override
   void initState() {
     list = Firebase.getdata();
     // listofcollage = Firebase.getdata2();
 
     // print("list is");
-    Firebase.getdata2();
+    // Firebase.getdata2();
     // print(list);
     getlistofcol();
 
     super.initState();
   }
-Future<void> getlistofcol()async {
 
-await FirebaseFirestore.instance
+  Future<void> getlistofcol() async {
+    print("listcollages.limit is ");
+    var abc = listcollages.get().then((value) => {
+          value.docs.forEach((element) {
+          var imh=element.data() as Map<String, dynamic>;
+            print(imh["INSTITUTE FEE"]);
+                        print("         ");
+
+          })
+        });
+    // print(abc);
+    await FirebaseFirestore.instance
         .collection("Colleges")
         .get()
-        .then((snapshort) => snapshort.docs.forEach((element) {
-              // print(element.);
-              listofcollage.add(CollegeModel(IMG: element["IMG"],
-                CUTOFF: 
-                element["CUTOFF"],
-                Established: element["Established"].toString(),
-                Name: element["Name"],
-                Location: element["Location"],
-                INSTITUTE_FEE: element["INSTITUTE FEE"],
-                PLACEMENTS: element["PLACEMENTS"],
-                RANKING: element["RANKING"],
-                HOSTEL_FEE: element["HOSTEL FEE"],
-                Institute_Type: element["Institute Type"],
+        .then((snapshort) => snapshort.docs.forEach((college) {
+                    var collegeinfo=college.data() as Map<String, dynamic>;
+              print("collegeinfo is");
+
+              print(collegeinfo);
+              listofcollage.add(CollegeModel(
+                IMG: collegeinfo["IMG"],
+                CUTOFF: collegeinfo["CUTOFF"],
+                Established: collegeinfo["Established"].toString(),
+                Name: collegeinfo["Name"],
+                Location: collegeinfo["Location"],
+                INSTITUTE_FEE: collegeinfo["INSTITUTE_FEE"],
+                PLACEMENTS: collegeinfo["PLACEMENTS"],
+                RANKING: collegeinfo["RANKING"],
+                HOSTEL_FEE: collegeinfo["HOSTEL_FEE"],
+                Institute_Type: collegeinfo["Institute_Type"],
+                
               ));
             }))
         .catchError((err) => print(err));
-        print(listofcollage[0].IMG);
-}
+    // listofcollage.forEach((element) {
+    //   print(element);
+    //   print(
+    //       "                                                                          ");
+    // });
+    // adddata();
+    setState(() {
+                    print("Length is "+listofcollage.length.toString());
+
+      loding = false;
+    });
+  }
+
+  Future<void> adddata() async {
+    return listcollages.doc("PICT")
+        .set(listofcollage[0].toMap())
+        .then((value) => print("done"))
+        .catchError((e) {
+      print("errer is $e");
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double c_width = MediaQuery.of(context).size.width * 0.6;
 
-    return Scaffold(
-      appBar: AppBar(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        leading: Builder(builder: (BuildContext context) {
-          return IconButton(
-            onPressed: () => Scaffold.of(context).openDrawer(),
-            icon: Icon(Icons.menu),
-            color: text_color_violet,
-          );
-        }),
-        backgroundColor: main_color,
-        elevation: 15,
-        shadowColor: Colors.black,
-        title: Center(
-            child: Text(
-          "The Admission Guide",
-          style: TextStyle(fontWeight: FontWeight.bold, color: text_color_violet),
-        )),
-      ),
-      body: 
-          // if (collagesnapshot.hasData) {
-             ListView.builder(
+    return loding
+        ? Center(child: CircularProgressIndicator())
+        : Scaffold(
+            appBar: AppBar(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              leading: Builder(builder: (BuildContext context) {
+                return IconButton(
+                  onPressed: () => adddata(),
+                  icon: Icon(Icons.menu),
+                  color: text_color_violet,
+                );
+              }),
+              backgroundColor: main_color,
+              elevation: 15,
+              shadowColor: Colors.black,
+              title: Center(
+                  child: Text(
+                "The Admission Guide",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, color: text_color_violet),
+              )),
+            ),
+            body:
+                // if (collagesnapshot.hasData) {
+                ListView.builder(
               itemCount: listofcollage.length,
               itemBuilder: ((context, index) {
                 // final DocumentSnapshot collagesnap =
@@ -116,7 +158,7 @@ await FirebaseFirestore.instance
                                   SizedBox(
                                     width: c_width,
                                     child: Text(
-                                      listofcollage[index].Name,
+                                      listofcollage[index].Name.toString(),
                                       style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
@@ -136,12 +178,10 @@ await FirebaseFirestore.instance
                 );
               }),
             )
-          // }
-          // return Center(
-          //   child: CircularProgressIndicator(),
-          // );
-        );
-      
-    
+            // }
+            // return Center(
+            //   child: CircularProgressIndicator(),
+            // );
+            );
   }
 }
